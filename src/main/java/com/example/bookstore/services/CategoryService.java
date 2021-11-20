@@ -101,6 +101,7 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
+    //get a book's category by USING the book's id
 
 
 }

@@ -46,8 +46,8 @@ public class BookController {
     }
 
     //GET books by categoryId
-    @GetMapping ("/category/{categoryId}")
-    public ResponseEntity<?> getBooksByCategoryId(@PathVariable Long categoryId) {
-        return bookService.getBookByCategoryId(categoryId);
+    @GetMapping ("/category/{bookId}")
+    public ResponseEntity<?> getBooksByCategoryId(@PathVariable Long bookId) {
+        return bookService.getBookByCategoryId(bookId);
     }
 }

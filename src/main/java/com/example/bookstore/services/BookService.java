@@ -110,7 +110,7 @@ public class BookService{
                 .fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newBook.getId()).toUri();
 
-        logger.info("Book created");
+        logger.info("Book created/Found");
         return ResponseEntity.created(location).body(newBook);
     }
 

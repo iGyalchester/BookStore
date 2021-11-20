@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Book findByCategoryId(Long id);
+    @Query("select b from Book b where b.category.id = ?1")
+    Collection<Book> findByCategoryId(Long id);
 
     @Modifying
     @Transactional
