@@ -23,6 +23,10 @@ public class Book {
 
     private Double price;
 
+    private String imageUrl;
+
+    private Integer quantity;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Category category;
@@ -82,4 +86,22 @@ public class Book {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+
 }

@@ -14,6 +14,9 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.category.id = ?1")
     Collection<Book> findByCategoryId(Long id);
+    
+    @Query("select b from Book b where b.category.name = ?1")
+    Collection<Book> findByCategoryName(String name);
 
     @Modifying
     @Transactional

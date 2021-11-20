@@ -50,4 +50,11 @@ public class BookController {
     public ResponseEntity<?> getBooksByCategoryId(@PathVariable Long bookId) {
         return bookService.getBookByCategoryId(bookId);
     }
+
+    //get book by category name
+    @GetMapping("/search")
+    public ResponseEntity<?> getBooksByCategoryName(@RequestParam(value = "name", required = false) String categoryName) {
+        return bookService.getBookByCategoryName(categoryName);
+    }
+
 }

@@ -119,4 +119,8 @@ public class BookService{
         return ResponseEntity.ok(bookRepository.findByCategoryId(id));
     }
 
+    //GET books by categoryName
+    public ResponseEntity<?>getBookByCategoryName(String name) {
+        return ResponseEntity.ok(bookRepository.findByCategoryName(name));
+    }
 }
