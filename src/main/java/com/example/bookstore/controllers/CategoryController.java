@@ -48,4 +48,10 @@ public class CategoryController {
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
+
+    //get a book's category by USING the book's id
+    @GetMapping("/book/{categoryId}")
+    public ResponseEntity<?> getCategoryByBookId(@PathVariable Long categoryId) {
+        return categoryService.getCategoryByBookId(categoryId);
+    }
 }

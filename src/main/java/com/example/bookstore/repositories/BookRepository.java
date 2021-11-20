@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
@@ -18,5 +19,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Transactional
     @Query("DELETE FROM Book b WHERE b.category.id = ?1")
     void deleteByCategoryId(Long id);
-
 }

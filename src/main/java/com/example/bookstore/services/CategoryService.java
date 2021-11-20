@@ -102,6 +102,8 @@ public class CategoryService {
     }
 
     //get a book's category by USING the book's id
-
+    public ResponseEntity<?> getCategoryByBookId(Long bookId) {
+        return ResponseEntity.ok(categoryRepository.findByBookId(bookId));
+    }
 
 }
