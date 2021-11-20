@@ -8,15 +8,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.category.id = ?1")
     Collection<Book> findByCategoryId(Long id);
     
-    @Query("select b from Book b where b.category.name = ?1")
-    Collection<Book> findByCategoryName(String name);
+
+    @Query("select b from Book b where upper(b.category.name) like upper(concat('%', ?1, '%'))")
+    Collection<Book> findByCategoryNameContainsIgnoreCase(String name);
 
     @Modifying
     @Transactional

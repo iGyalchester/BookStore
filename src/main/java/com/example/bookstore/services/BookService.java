@@ -121,6 +121,6 @@ public class BookService{
 
     //GET books by categoryName
     public ResponseEntity<?>getBookByCategoryName(String name) {
-        return ResponseEntity.ok(bookRepository.findByCategoryName(name));
+        return ResponseEntity.ok(bookRepository.findByCategoryNameContainsIgnoreCase(name));
     }
 }
