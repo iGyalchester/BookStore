@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -31,7 +30,7 @@ public class CategoryService {
     }
 
     //POST new category
-    public ResponseEntity<Category> createCategory(Category category) {
+    public Category createCategory(Category category) {
         Category newCategory = categoryRepository.save(category);
 
         URI newCategoryUri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -39,61 +38,60 @@ public class CategoryService {
 
         logger.info("Category created");
 
-        return ResponseEntity.created(newCategoryUri).body(newCategory);
+        return newCategory;
     }
 
     //GET all categories
-    public ResponseEntity<?> getAllCategories() {
+    public List<Category> getAllCategories() {
 
         List<Category> categories = categoryRepository.findAll();
-        if (categories.isEmpty()) {
+        if (categories == null) {
             logger.info("No Categories Found");
-            return ResponseEntity.notFound().build();
+            return null;
         }
         logger.info("Category found");
-        return ResponseEntity.ok(categories);
+        return categories;
     }
 
     //GET category by id
-    public ResponseEntity<?> getCategoryById(Long id) {
+    public Optional<Category> getCategoryById(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
             logger.info("Category not found");
-            return ResponseEntity.notFound().build();
+            return null;
         }
 
         logger.info("Category found");
-        return ResponseEntity.ok(category.get());
+        return category;
     }
 
     //PUT
-    public ResponseEntity<?> updateCategory(Category category,Long id) {
+    public Category updateCategory(Category category,Long id) {
         Optional<Category> findByCategoryId = categoryRepository.findById(id);
         if (findByCategoryId.isEmpty()) {
             logger.info("Category not found");
-            return ResponseEntity.notFound().build();
+            return null;
         }
 
         logger.info("Category updated");
         category.setId(findByCategoryId.get().getId());
         categoryRepository.save(category);
 
-        return ResponseEntity.ok().build();
+        return categoryRepository.save(category);
     }
 
     //DELETE category
-    public ResponseEntity<?> deleteCategory(Long id) {
+    public void deleteCategory(Long id) {
         Optional<Category> category = categoryRepository.findById(id);
         if (category.isEmpty()) {
             logger.info("Category not found");
-            return ResponseEntity.notFound().build();
         }
 
         deleteCategoryWithBooks(category.get());
 
         logger.info("Category deleted");
-        return ResponseEntity.accepted().build();
     }
+
 
     @Transactional
     public void deleteCategoryWithBooks(Category category) {
@@ -102,11 +100,12 @@ public class CategoryService {
     }
 
     //get a book's category by USING the book's id
-    public ResponseEntity<?> getCategoryByBookId(Long bookId) {
-        return ResponseEntity.ok(categoryRepository.findByBookId(bookId));
+    public Category getCategoryByBookId(Long bookId) {
+        return (categoryRepository.findByBookId(bookId));
     }
 
-    public ResponseEntity<?> getBookByKeyword(String name) {
-        return ResponseEntity.ok(categoryRepository.findByName(name));
+    //get book by keyword
+    public List<Category> getBookByKeyword(String name) {
+        return categoryRepository.findByName(name);
     }
 }

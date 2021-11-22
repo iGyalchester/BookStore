@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,42 +33,40 @@ public class BookService{
     }
 
     //get all books
-    public ResponseEntity<?> getAllBooks() {
+    public List<Book> getAllBooks() {
         List<Book> books = bookRepository.findAll();
 
         if (books.isEmpty()) {
             logger.info("No books found");
-            return ResponseEntity.noContent().build();
+            return null;
         }
         logger.info("Books found");
-        return ResponseEntity.ok(books);
+        return books;
     }
 
     //get a book by id
-    public ResponseEntity<?> getBookById(Long id) {
+    public Book getBookById(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (bookRepository.findById(id).isEmpty()) {
             logger.info("Book not found");
-            return ResponseEntity.noContent().build();
+            return null;
         }
         logger.info("Book found");
-        return ResponseEntity.ok(book.get());
+        return book.get();
     }
 
     //PUT book
-    public ResponseEntity<?> updateBook(Book book, Long id) {
+    public void updateBook(Book book, Long id) {
         Optional<Category> categories = categoryRepository
                 .findById(book.getCategory().getId());
         Optional<Book> books = bookRepository.findById(id);
 
         if (categories.isEmpty()) {
             logger.info("Category not found");
-            return ResponseEntity.notFound().build();
         }
 
         if (bookRepository.findById(id).isEmpty()) {
             logger.info("Book not found");
-            return ResponseEntity.notFound().build();
         }
 
         book.setCategory(categories.get());
@@ -76,31 +75,28 @@ public class BookService{
         bookRepository.save(book);
 
         logger.info("Book updated");
-        return ResponseEntity.ok().build();
     }
 
     //DELETE book
-    public ResponseEntity<?> deleteBook(Long id) {
+    public void deleteBook(Long id) {
         Optional<Book> book = bookRepository.findById(id);
         if (book.isEmpty()) {
             logger.info("Book not found");
-            return ResponseEntity.noContent().build();
         }
 
         logger.info("Book deleted");
         bookRepository.delete(book.get());
-        return ResponseEntity.ok().build();
 
     }
 
     //POST a book
-    public ResponseEntity<?> createBook(Book book) {
+    public Book createBook(Book book) {
         Optional<Category> categories = categoryRepository
                 .findById(book.getCategory().getId());
 
         if (categories.isEmpty()) {
             logger.info("Category is Empty found");
-            return ResponseEntity.noContent().build();
+            return null;
         }
 
         book.setCategory(categories.get());
@@ -111,16 +107,16 @@ public class BookService{
                 .buildAndExpand(newBook.getId()).toUri();
 
         logger.info("Book created/Found");
-        return ResponseEntity.created(location).body(newBook);
+        return newBook;
     }
 
     //GET books by categoryId
-    public ResponseEntity<?>getBookByCategoryId(Long id) {
-        return ResponseEntity.ok(bookRepository.findByCategoryId(id));
+    public Collection<Book> getBooksByCategoryId(Long id) {
+        return bookRepository.findByCategoryId(id);
     }
 
     //GET books by categoryName
-    public ResponseEntity<?>getBookByCategoryName(String name) {
-        return ResponseEntity.ok(bookRepository.findByCategoryNameContainsIgnoreCase(name));
+    public Collection<Book>getBookByCategoryName(String name) {
+        return bookRepository.findByCategoryNameContainsIgnoreCase(name);
     }
 }

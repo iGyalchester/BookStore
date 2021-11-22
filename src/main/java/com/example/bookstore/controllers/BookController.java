@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/books")
@@ -17,43 +20,43 @@ public class BookController {
 
     // GET all books
     @GetMapping
-    public ResponseEntity<?> getAllBooks() {
+    public List<Book> getAllBooks() {
         return bookService.getAllBooks();
     }
 
     //GET book by id
     @GetMapping ("/{id}")
-    public ResponseEntity<?> getBookById(@PathVariable Long id) {
+    public Book getBookById(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
     //create book
     @PostMapping
-    public ResponseEntity<?> createBook(@RequestBody Book book) {
-        return bookService.createBook(book);
+    public void createBook(@RequestBody Book book) {
+        bookService.createBook(book);
     }
 
     //update book
     @PutMapping ("/{id}")
-    public ResponseEntity<?> updateBookById(@RequestBody Book book, @PathVariable Long id) {
-        return bookService.updateBook(book, id);
+    public void updateBookById(@RequestBody Book book, @PathVariable Long id) {
+        bookService.updateBook(book, id);
     }
 
     //delete book
     @DeleteMapping ("/{id}")
-    public ResponseEntity<?> deleteBookById(@PathVariable Long id) {
-        return bookService.deleteBook(id);
+    public void deleteBookById(@PathVariable Long id) {
+        bookService.deleteBook(id);
     }
 
     //GET books by categoryId
     @GetMapping ("/category/{bookId}")
-    public ResponseEntity<?> getBooksByCategoryId(@PathVariable Long bookId) {
-        return bookService.getBookByCategoryId(bookId);
+    public Collection<Book> getBooksByCategoryId(@PathVariable Long bookId) {
+        return bookService.getBooksByCategoryId(bookId);
     }
 
     //get book by category name
     @GetMapping("/search")
-    public ResponseEntity<?> getBooksByCategoryName(@RequestParam(value = "name", required = false) String categoryName) {
+    public Collection<Book> getBooksByCategoryName(@RequestParam(value = "name", required = false) String categoryName) {
         return bookService.getBookByCategoryName(categoryName);
     }
 

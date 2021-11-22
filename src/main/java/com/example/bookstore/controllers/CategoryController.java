@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/categories")
@@ -15,39 +18,39 @@ public class CategoryController {
     CategoryService categoryService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllCategories() {
+    public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
+    public Optional<Category> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(@RequestBody Category category, @PathVariable Long id) {
+    public Category updateCategory(@RequestBody Category category, @PathVariable Long id) {
         return categoryService.updateCategory(category, id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        return categoryService.deleteCategory(id);
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
     }
 
     @PostMapping("/")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public Category createCategory(@RequestBody Category category) {
         return categoryService.createCategory(category);
     }
 
     @GetMapping("/book/{categoryId}")
-    public ResponseEntity<?> getCategoryByBookId(@PathVariable Long categoryId) {
+    public Category getCategoryByBookId(@PathVariable Long categoryId) {
         return categoryService.getCategoryByBookId(categoryId);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> getCategoryByName(@RequestParam(value = "name", required = false) String name) {
+    public List<Category> getCategoryByName(@RequestParam(value = "name", required = false) String name) {
         return categoryService.getBookByKeyword(name);
     }
 
