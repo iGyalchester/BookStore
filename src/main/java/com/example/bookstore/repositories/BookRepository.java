@@ -22,4 +22,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Transactional
     @Query("DELETE FROM Book b WHERE b.category.id = ?1")
     void deleteByCategoryId(Long id);
+
 }

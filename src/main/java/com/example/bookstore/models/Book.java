@@ -3,7 +3,6 @@ package com.example.bookstore.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 public class Book {

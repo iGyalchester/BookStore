@@ -13,6 +13,4 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("select c from Category c join c.books b where b.name like %?1%")
     Iterable<Category> findByName(String name);
-
-
 }
